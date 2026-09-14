@@ -6,10 +6,15 @@
 
     <title>Leonie's Wunschliste</title>
 
+    <link rel="icon" type="image/png" href="favicon.png">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
+
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <style>
 
@@ -128,10 +133,6 @@
             transform: translateY(-5px);
             box-shadow: 0 18px 40px rgba(91, 62, 70, .08);
         }
-
-        /* -------------------------
-           IMAGE
-        ------------------------- */
 
         .gift-image {
             aspect-ratio: 1 / 1;
@@ -256,10 +257,6 @@
             background: #faf2f4;
         }
 
-        /* -------------------------
-           TAKEN STATE
-        ------------------------- */
-
         .gift-card.taken {
             opacity: .72;
         }
@@ -299,6 +296,135 @@
         }
 
         /* -------------------------
+           ADMIN
+        ------------------------- */
+
+        .admin-area {
+            max-width: 1250px;
+            margin: 0 auto 80px;
+            padding: 0 30px;
+        }
+
+        .admin-login,
+        .admin-panel {
+            background: #fff;
+            border: 1px solid #eee3e6;
+            border-radius: 18px;
+            padding: 35px;
+        }
+
+        .admin-login h2,
+        .admin-panel h2 {
+            font-size: 36px;
+            margin-bottom: 25px;
+        }
+
+        .admin-form {
+            display: grid;
+            gap: 14px;
+        }
+
+        .admin-form input,
+        .admin-form textarea,
+        .admin-form select {
+            width: 100%;
+            padding: 13px 15px;
+            border: 1px solid #dfcbd1;
+            border-radius: 8px;
+            background: #fff;
+            color: #45383c;
+            font-family: inherit;
+            font-size: 14px;
+        }
+
+        .admin-form textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .admin-form button,
+        .admin-button {
+            min-height: 45px;
+            border: none;
+            border-radius: 8px;
+            background: #604850;
+            color: white;
+            font-family: inherit;
+            cursor: pointer;
+            padding: 10px 18px;
+            transition: .2s ease;
+        }
+
+        .admin-form button:hover,
+        .admin-button:hover {
+            background: #49383d;
+        }
+
+        .admin-secondary {
+            background: #f4dce4 !important;
+            color: #604850 !important;
+        }
+
+        .admin-danger {
+            background: #ead9dd !important;
+            color: #704b55 !important;
+        }
+
+        .admin-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .admin-gift {
+            border: 1px solid #eee3e6;
+            border-radius: 14px;
+            padding: 20px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .admin-gift-info h3 {
+            font-size: 21px;
+        }
+
+        .admin-gift-info p {
+            font-size: 13px;
+            color: #806f74;
+        }
+
+        .admin-gift-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .message {
+            margin-top: 15px;
+            padding: 12px 15px;
+            border-radius: 8px;
+            background: #f7e8ed;
+            color: #705c63;
+            font-size: 13px;
+        }
+
+        .admin-divider {
+            height: 1px;
+            background: #eee3e6;
+            margin: 35px 0;
+        }
+
+        /* -------------------------
            FOOTER
         ------------------------- */
 
@@ -319,6 +445,117 @@
 
         footer span {
             color: #a29498;
+        }
+
+        /* -------------------------
+           POPUP
+        ------------------------- */
+
+        .popup-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(58, 39, 45, 0.48);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            z-index: 1000;
+        }
+
+        .popup-overlay.hidden {
+            display: none;
+        }
+
+        .popup-card {
+            width: min(100%, 420px);
+            background: #fffdfd;
+            border: 1px solid #f0dfe4;
+            border-radius: 26px;
+            box-shadow: 0 28px 70px rgba(72, 51, 59, 0.18);
+            padding: 32px 28px 24px;
+            position: relative;
+        }
+
+        .popup-close {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            width: 32px;
+            height: 32px;
+            border: 1px solid #ecd8df;
+            border-radius: 50%;
+            background: #f8edf1;
+            color: #785d66;
+            font-size: 22px;
+            line-height: 1;
+            cursor: pointer;
+        }
+
+        .popup-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 18px;
+            background: linear-gradient(135deg, #f3d7e1, #f7ebf0);
+            color: #6d4855;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            margin-bottom: 18px;
+        }
+
+        .popup-card h3 {
+            font-size: 28px;
+            margin: 0 0 10px;
+        }
+
+        .popup-card p {
+            font-size: 15px;
+            color: #735f65;
+            margin-bottom: 26px;
+        }
+
+        .popup-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .popup-button {
+            min-height: 44px;
+            padding: 0 18px;
+            border-radius: 10px;
+            border: 1px solid transparent;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: .2s ease;
+        }
+
+        .popup-button-primary {
+            background: #604850;
+            color: #fff;
+        }
+
+        .popup-button-primary:hover {
+            background: #49383d;
+        }
+
+        .popup-button-secondary {
+            background: #f4dce4;
+            color: #604850;
+            border-color: #ebccd7;
+        }
+
+        .popup-button-secondary:hover {
+            background: #ecd1db;
+        }
+
+        .popup-hidden {
+            display: none !important;
         }
 
         /* -------------------------
@@ -364,6 +601,20 @@
                 margin-bottom: 80px;
             }
 
+            .admin-area {
+                padding: 0 18px;
+            }
+
+            .admin-login,
+            .admin-panel {
+                padding: 25px;
+            }
+
+            .admin-gift {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
             footer {
                 flex-direction: column;
                 gap: 8px;
@@ -377,9 +628,8 @@
 
 <body>
 
-
     <!-- =========================
-         HEADER
+         HERO
     ========================== -->
 
     <header class="hero">
@@ -406,261 +656,33 @@
     </header>
 
 
+    <!-- =========================
+         GESCHENKE
+    ========================== -->
 
     <main>
 
+        <div id="giftSections">
 
-        <!-- =========================
-             GEBURTSTAG
-        ========================== -->
+            <!-- Wird automatisch durch Supabase gefüllt -->
 
-        <section class="gift-section">
+            <section class="gift-section" id="loadingSection">
 
-            <div class="section-heading">
+                <div class="section-heading">
 
-                <span class="section-label">
-                    21. FEBRUAR
-                </span>
+                    <span class="section-label">
+                        WUNSCHLISTE
+                    </span>
 
-                <h2>
-                    Geburtstag
-                </h2>
+                    <h2>
+                        Geschenke werden geladen ...
+                    </h2>
 
-            </div>
+                </div>
 
+            </section>
 
-            <div class="gift-grid">
-
-
-                <!-- GESCHENK 1 -->
-
-                <article class="gift-card">
-
-                    <div class="gift-image">
-
-                        <img
-                            src="https://placehold.co/700x700/f8dfe7/6d4c55?text=Nike+Schuhe"
-                            alt="Nike Schuhe"
-                        >
-
-                    </div>
-
-
-                    <div class="gift-content">
-
-                        <span class="gift-category">
-                            Schuhe
-                        </span>
-
-                        <h3>
-                            Nike Schuhe
-                        </h3>
-
-                        <p class="gift-description">
-                            Die gewünschten Schuhe aus Leonies Wunschliste.
-                        </p>
-
-
-                        <div class="gift-bottom">
-
-                            <span class="price">
-                                89,99 €
-                            </span>
-
-                            <span class="status available">
-                                Verfügbar
-                            </span>
-
-                        </div>
-
-
-                        <div class="gift-actions">
-
-                            <a
-                                href="https://www.amazon.de/"
-                                target="_blank"
-                                class="shop-button"
-                            >
-                                Zum Shop
-                            </a>
-
-                            <button
-                                class="claim-button"
-                                onclick="claimGift(this)"
-                            >
-                                Geschenk übernehmen
-                            </button>
-
-                        </div>
-
-                    </div>
-
-                </article>
-
-
-
-                <!-- GESCHENK 2 -->
-
-                <article class="gift-card">
-
-                    <div class="gift-image">
-
-                        <img
-                            src="https://placehold.co/700x700/f8dfe7/6d4c55?text=Parfum"
-                            alt="Parfum"
-                        >
-
-                    </div>
-
-
-                    <div class="gift-content">
-
-                        <span class="gift-category">
-                            Beauty
-                        </span>
-
-                        <h3>
-                            Parfum
-                        </h3>
-
-                        <p class="gift-description">
-                            Ein Parfum aus Leonies Wunschliste.
-                        </p>
-
-
-                        <div class="gift-bottom">
-
-                            <span class="price">
-                                59,99 €
-                            </span>
-
-                            <span class="status available">
-                                Verfügbar
-                            </span>
-
-                        </div>
-
-
-                        <div class="gift-actions">
-
-                            <a
-                                href="https://www.amazon.de/"
-                                target="_blank"
-                                class="shop-button"
-                            >
-                                Zum Shop
-                            </a>
-
-                            <button
-                                class="claim-button"
-                                onclick="claimGift(this)"
-                            >
-                                Geschenk übernehmen
-                            </button>
-
-                        </div>
-
-                    </div>
-
-                </article>
-
-            </div>
-
-        </section>
-
-
-
-        <!-- =========================
-             WEIHNACHTEN
-        ========================== -->
-
-        <section class="gift-section">
-
-            <div class="section-heading">
-
-                <span class="section-label">
-                    24. DEZEMBER
-                </span>
-
-                <h2>
-                    Weihnachten
-                </h2>
-
-            </div>
-
-
-            <div class="gift-grid">
-
-
-                <!-- GESCHENK -->
-
-                <article class="gift-card">
-
-                    <div class="gift-image">
-
-                        <img
-                            src="https://placehold.co/700x700/f8dfe7/6d4c55?text=Wunsch"
-                            alt="Geschenk"
-                        >
-
-                    </div>
-
-
-                    <div class="gift-content">
-
-                        <span class="gift-category">
-                            Wunsch
-                        </span>
-
-                        <h3>
-                            Beispiel-Geschenk
-                        </h3>
-
-                        <p class="gift-description">
-                            Beschreibung des gewünschten Geschenks.
-                        </p>
-
-
-                        <div class="gift-bottom">
-
-                            <span class="price">
-                                39,99 €
-                            </span>
-
-                            <span class="status available">
-                                Verfügbar
-                            </span>
-
-                        </div>
-
-
-                        <div class="gift-actions">
-
-                            <a
-                                href="https://www.amazon.de/"
-                                target="_blank"
-                                class="shop-button"
-                            >
-                                Zum Shop
-                            </a>
-
-                            <button
-                                class="claim-button"
-                                onclick="claimGift(this)"
-                            >
-                                Geschenk übernehmen
-                            </button>
-
-                        </div>
-
-                    </div>
-
-                </article>
-
-            </div>
-
-        </section>
-
+        </div>
 
 
         <!-- =========================
@@ -682,9 +704,170 @@
 
         </div>
 
-
     </main>
 
+
+    <!-- =========================
+         ADMIN-BEREICH
+    ========================== -->
+
+    <section class="admin-area">
+
+        <!-- LOGIN -->
+
+        <div class="admin-login" id="loginBox">
+
+            <h2>
+                Verwaltung
+            </h2>
+
+            <p style="margin-bottom: 20px; color:#806f74; font-size:14px;">
+                Nur für Leonie.
+            </p>
+
+            <form class="admin-form" id="loginForm">
+
+                <input
+                    type="email"
+                    id="loginEmail"
+                    placeholder="E-Mail"
+                    required
+                >
+
+                <input
+                    type="password"
+                    id="loginPassword"
+                    placeholder="Passwort"
+                    required
+                >
+
+                <button type="submit">
+                    Einloggen
+                </button>
+
+            </form>
+
+            <div
+                class="message hidden"
+                id="loginMessage"
+            ></div>
+
+        </div>
+
+
+        <!-- ADMIN PANEL -->
+
+        <div class="admin-panel hidden" id="adminPanel">
+
+            <div class="admin-top">
+
+                <div>
+
+                    <span class="section-label">
+                        ADMINISTRATION
+                    </span>
+
+                    <h2>
+                        Wunschliste verwalten
+                    </h2>
+
+                </div>
+
+                <button
+                    class="admin-button admin-secondary"
+                    id="logoutButton"
+                >
+                    Ausloggen
+                </button>
+
+            </div>
+
+
+            <!-- FORMULAR -->
+
+            <form class="admin-form" id="giftForm">
+
+                <input
+                    type="text"
+                    id="giftName"
+                    placeholder="Name des Geschenks"
+                    required
+                >
+
+                <textarea
+                    id="giftDescription"
+                    placeholder="Beschreibung"
+                ></textarea>
+
+                <input
+                    type="text"
+                    id="giftCategory"
+                    placeholder="Kategorie, z. B. Geburtstag oder Weihnachten"
+                    required
+                >
+
+                <input
+                    type="number"
+                    id="giftPrice"
+                    placeholder="Preis"
+                    min="0"
+                    step="0.01"
+                    required
+                >
+
+                <input
+                    type="url"
+                    id="giftImage"
+                    placeholder="Bild-URL"
+                    required
+                >
+
+                <input
+                    type="url"
+                    id="giftShop"
+                    placeholder="Shop-Link"
+                    required
+                >
+
+                <div style="display:flex; gap:10px; flex-wrap:wrap;">
+
+                    <button type="submit" id="saveGiftButton">
+                        Geschenk hinzufügen
+                    </button>
+
+                    <button
+                        type="button"
+                        class="admin-button admin-secondary hidden"
+                        id="cancelEditButton"
+                    >
+                        Bearbeiten abbrechen
+                    </button>
+
+                </div>
+
+            </form>
+
+
+            <div
+                class="message hidden"
+                id="adminMessage"
+            ></div>
+
+
+            <div class="admin-divider"></div>
+
+
+            <h3 style="margin-bottom:20px; font-family:'Playfair Display',serif; font-size:28px;">
+                Geschenke verwalten
+            </h3>
+
+            <div id="adminGiftList">
+                Geschenke werden geladen ...
+            </div>
+
+        </div>
+
+    </section>
 
 
     <!-- =========================
@@ -703,54 +886,1350 @@
 
     </footer>
 
+    <div class="popup-overlay hidden" id="popupOverlay" aria-hidden="true">
+
+        <div class="popup-card" role="dialog" aria-modal="true" aria-labelledby="popupTitle">
+
+            <button class="popup-close" id="popupCloseButton" aria-label="Schließen">×</button>
+
+            <div class="popup-icon">♡</div>
+
+            <h3 id="popupTitle">Geschenk übernehmen?</h3>
+
+            <p id="popupMessage">
+                Möchtest du dieses Geschenk wirklich übernehmen?
+            </p>
+
+            <div class="popup-actions">
+
+                <button
+                    type="button"
+                    class="popup-button popup-button-secondary"
+                    id="popupCancelButton"
+                >
+                    Abbrechen
+                </button>
+
+                <button
+                    type="button"
+                    class="popup-button popup-button-primary"
+                    id="popupConfirmButton"
+                >
+                    Ja, übernehmen
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
 
 
     <!-- =========================
          JAVASCRIPT
     ========================== -->
+<script>
 
-    <script>
+    /* =====================================================
+       SUPABASE EINSTELLUNGEN
+       ===================================================== */
 
-        function claimGift(button) {
+    const SUPABASE_URL =
+        "https://jblputdyytbpllamruwt.supabase.co";
 
-            const card = button.closest(".gift-card");
+  
+    const SUPABASE_ANON_KEY =
+        "sb_publishable_fpOqPLHh9vEc5ULuw4_5yg_XFj4bKPo";
 
-            const status = card.querySelector(".status");
+
+    const { createClient } = supabase;
+
+    const db = createClient(
+        SUPABASE_URL,
+        SUPABASE_ANON_KEY
+    );
 
 
-            if (card.classList.contains("taken")) {
-                return;
+    /* =====================================================
+       ELEMENTE
+       ===================================================== */
+
+    const giftSections =
+        document.getElementById("giftSections");
+
+    const loginBox =
+        document.getElementById("loginBox");
+
+    const adminPanel =
+        document.getElementById("adminPanel");
+
+    const loginForm =
+        document.getElementById("loginForm");
+
+    const giftForm =
+        document.getElementById("giftForm");
+
+    const logoutButton =
+        document.getElementById("logoutButton");
+
+    const adminGiftList =
+        document.getElementById("adminGiftList");
+
+    const loginMessage =
+        document.getElementById("loginMessage");
+
+    const adminMessage =
+        document.getElementById("adminMessage");
+
+    const saveGiftButton =
+        document.getElementById("saveGiftButton");
+
+    const cancelEditButton =
+        document.getElementById("cancelEditButton");
+
+    const popupOverlay =
+        document.getElementById("popupOverlay");
+
+    const popupTitle =
+        document.getElementById("popupTitle");
+
+    const popupMessage =
+        document.getElementById("popupMessage");
+
+    const popupConfirmButton =
+        document.getElementById("popupConfirmButton");
+
+    const popupCancelButton =
+        document.getElementById("popupCancelButton");
+
+    const popupCloseButton =
+        document.getElementById("popupCloseButton");
+
+
+    let editingGiftId = null;
+
+
+    /* =====================================================
+       SICHERE URL
+       ===================================================== */
+
+    function safeUrl(value) {
+
+        try {
+
+            const url = new URL(value);
+
+            if (
+                url.protocol === "https:" ||
+                url.protocol === "http:"
+            ) {
+                return url.href;
             }
 
+            return "#";
 
-            const confirmation = confirm(
-                "Möchtest du dieses Geschenk übernehmen?"
-            );
+        } catch {
 
-
-            if (!confirmation) {
-                return;
-            }
-
-
-            card.classList.add("taken");
-
-
-            status.textContent = "Bereits gekauft";
-
-            status.classList.remove("available");
-
-            status.classList.add("taken");
-
-
-            button.textContent = "Bereits übernommen";
-
-            button.disabled = true;
+            return "#";
 
         }
 
-    </script>
+    }
 
 
+    /* =====================================================
+       HTML ESCAPEN
+       ===================================================== */
+
+    function escapeHtml(value) {
+
+        if (value === null || value === undefined) {
+            return "";
+        }
+
+        return String(value)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+
+    }
+
+
+    /* =====================================================
+       NACHRICHTEN
+       ===================================================== */
+
+    function showMessage(element, text) {
+
+        element.textContent = text;
+        element.classList.remove("hidden");
+
+    }
+
+
+    function hideMessage(element) {
+
+        element.textContent = "";
+        element.classList.add("hidden");
+
+    }
+
+
+    /* =====================================================
+       POPUP
+       ===================================================== */
+
+    function hidePopup() {
+
+        popupOverlay.classList.add("hidden");
+
+    }
+
+
+    function showPopup({
+        title,
+        message,
+        confirmText = "OK",
+        cancelText = "Abbrechen",
+        onConfirm = null,
+        showCancel = true
+    }) {
+
+        popupTitle.textContent = title;
+        popupMessage.textContent = message;
+        popupConfirmButton.textContent = confirmText;
+        popupCancelButton.textContent = cancelText;
+        popupCancelButton.classList.toggle("hidden", !showCancel);
+
+        popupOverlay.classList.remove("hidden");
+
+        popupConfirmButton.onclick = async () => {
+            hidePopup();
+
+            if (typeof onConfirm === "function") {
+                await onConfirm();
+            }
+        };
+
+        popupCancelButton.onclick = hidePopup;
+        popupCloseButton.onclick = hidePopup;
+
+    }
+
+
+    popupOverlay.addEventListener("click", function(event) {
+
+        if (event.target === popupOverlay) {
+            hidePopup();
+        }
+
+    });
+
+
+    /* =====================================================
+       PREIS FORMATIEREN
+       ===================================================== */
+
+    function formatPrice(price) {
+
+        if (
+            price === null ||
+            price === undefined ||
+            price === ""
+        ) {
+            return "";
+        }
+
+        return Number(price).toLocaleString(
+            "de-DE",
+            {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            }
+        ) + " €";
+
+    }
+
+
+    /* =====================================================
+       DATEN LADEN
+       ===================================================== */
+
+    async function loadGifts() {
+
+        const {
+            data,
+            error
+        } = await db
+            .from("gifts")
+            .select("*")
+            .order("created_at", {
+                ascending: true
+            });
+
+
+        if (error) {
+
+            console.error("Geschenke laden:", error);
+
+            giftSections.innerHTML = `
+                <div class="info-box">
+                    <h3>Fehler</h3>
+                    <p>
+                        Die Geschenke konnten nicht geladen werden.
+                    </p>
+                </div>
+            `;
+
+            return;
+
+        }
+
+
+        renderGifts(data || []);
+
+    }
+
+
+    /* =====================================================
+       GESCHENKE ANZEIGEN
+       ===================================================== */
+
+    function renderGifts(gifts) {
+
+        if (!gifts.length) {
+
+            giftSections.innerHTML = `
+                <section class="gift-section">
+
+                    <div class="section-heading">
+
+                        <span class="section-label">
+                            WUNSCHLISTE
+                        </span>
+
+                        <h2>
+                            Noch keine Geschenke
+                        </h2>
+
+                    </div>
+
+                    <div class="info-box">
+
+                        <h3>
+                            Die Wunschliste ist noch leer.
+                        </h3>
+
+                        <p>
+                            Leonie kann im Admin-Bereich
+                            jederzeit neue Geschenke hinzufügen.
+                        </p>
+
+                    </div>
+
+                </section>
+            `;
+
+            return;
+
+        }
+
+
+        const groups = {};
+
+
+        gifts.forEach(gift => {
+
+            let category =
+                gift.category?.trim() ||
+                "Weitere Wünsche";
+
+
+            if (!groups[category]) {
+                groups[category] = [];
+            }
+
+            groups[category].push(gift);
+
+        });
+
+
+        giftSections.innerHTML = "";
+
+
+        Object.entries(groups).forEach(
+            ([category, categoryGifts]) => {
+
+                const section =
+                    document.createElement("section");
+
+                section.className = "gift-section";
+
+
+                const heading =
+                    document.createElement("div");
+
+                heading.className = "section-heading";
+
+
+                heading.innerHTML = `
+
+                    <span class="section-label">
+                        WUNSCHLISTE
+                    </span>
+
+                    <h2>
+                        ${escapeHtml(category)}
+                    </h2>
+
+                `;
+
+
+                const grid =
+                    document.createElement("div");
+
+                grid.className = "gift-grid";
+
+
+                categoryGifts.forEach(gift => {
+
+                    grid.appendChild(
+                        createGiftCard(gift)
+                    );
+
+                });
+
+
+                section.appendChild(heading);
+                section.appendChild(grid);
+
+                giftSections.appendChild(section);
+
+            }
+        );
+
+    }
+
+
+    /* =====================================================
+       GESCHENK-KARTE
+       ===================================================== */
+
+    function createGiftCard(gift) {
+
+        const card =
+            document.createElement("article");
+
+        card.className =
+            "gift-card" +
+            (gift.is_claimed ? " taken" : "");
+
+
+        const imageUrl =
+            safeUrl(gift.image_url);
+
+
+        const shopUrl =
+            safeUrl(gift.shop_url);
+
+
+        card.innerHTML = `
+
+            <div class="gift-image">
+
+                <img
+                    src="${imageUrl}"
+                    alt="${escapeHtml(gift.name)}"
+                    onerror="this.src='https://placehold.co/700x700/f8dfe7/6d4c55?text=Geschenk'"
+                >
+
+            </div>
+
+
+            <div class="gift-content">
+
+                <span class="gift-category">
+                    ${escapeHtml(gift.category || "Wunsch")}
+                </span>
+
+
+                <h3>
+                    ${escapeHtml(gift.name)}
+                </h3>
+
+
+                <p class="gift-description">
+                    ${escapeHtml(gift.description || "")}
+                </p>
+
+
+                <div class="gift-bottom">
+
+                    <span class="price">
+                        ${formatPrice(gift.price)}
+                    </span>
+
+
+                    <span class="status ${
+                        gift.is_claimed
+                            ? "taken"
+                            : "available"
+                    }">
+
+                        ${
+                            gift.is_claimed
+                                ? "Bereits gekauft"
+                                : "Verfügbar"
+                        }
+
+                    </span>
+
+                </div>
+
+
+                <div class="gift-actions">
+
+                    <a
+                        href="${shopUrl}"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="shop-button"
+                    >
+                        Zum Shop
+                    </a>
+
+
+                    <button
+                        class="claim-button"
+                        ${gift.is_claimed ? "disabled" : ""}
+                    >
+
+                        ${
+                            gift.is_claimed
+                                ? "Bereits übernommen"
+                                : "Geschenk übernehmen"
+                        }
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        `;
+
+
+        const claimButton =
+            card.querySelector(".claim-button");
+
+
+        if (!gift.is_claimed) {
+
+            claimButton.addEventListener(
+                "click",
+                () => claimGift(gift.id)
+            );
+
+        }
+
+
+        return card;
+
+    }
+
+
+    /* =====================================================
+       GESCHENK ÜBERNEHMEN
+       ===================================================== */
+
+    async function claimGift(giftId) {
+
+        showPopup({
+            title: "Geschenk übernehmen?",
+            message: "Möchtest du dieses Geschenk wirklich übernehmen? Danach wird es für andere als vergeben markiert.",
+            confirmText: "Ja, übernehmen",
+            cancelText: "Abbrechen",
+            onConfirm: async () => {
+
+                const {
+                    data,
+                    error
+                } = await db.rpc(
+                    "claim_gift",
+                    {
+                        gift_id: giftId
+                    }
+                );
+
+
+                if (error) {
+
+                    console.error("Geschenk übernehmen:", error);
+
+                    showPopup({
+                        title: "Etwas ist schiefgelaufen",
+                        message: "Das Geschenk konnte nicht übernommen werden. Bitte versuche es noch einmal.",
+                        confirmText: "OK",
+                        cancelText: "",
+                        showCancel: false
+                    });
+
+                    return;
+
+                }
+
+
+                if (!data) {
+
+                    showPopup({
+                        title: "Schon vergeben",
+                        message: "Dieses Geschenk wurde gerade schon von jemand anderem übernommen.",
+                        confirmText: "OK",
+                        cancelText: "",
+                        showCancel: false,
+                        onConfirm: async () => {
+                            await loadGifts();
+                        }
+                    });
+
+                    return;
+
+                }
+
+
+                await loadGifts();
+
+            }
+        });
+
+    }
+
+
+    /* =====================================================
+       LOGIN
+       ===================================================== */
+
+    loginForm.addEventListener(
+        "submit",
+        async function(event) {
+
+            event.preventDefault();
+
+            hideMessage(loginMessage);
+
+
+            const email =
+                document.getElementById(
+                    "loginEmail"
+                ).value.trim();
+
+
+            const password =
+                document.getElementById(
+                    "loginPassword"
+                ).value;
+
+
+            const {
+                data,
+                error
+            } = await db.auth.signInWithPassword({
+                email,
+                password
+            });
+
+
+            if (error) {
+
+                console.error(
+                    "Supabase Login-Fehler:",
+                    error
+                );
+
+                showMessage(
+                    loginMessage,
+                    "Login-Fehler: " + error.message
+                );
+
+                return;
+
+            }
+
+
+            console.log(
+                "Login erfolgreich:",
+                data.user
+            );
+
+            loginForm.reset();
+
+        }
+    );
+
+
+    /* =====================================================
+       AUTH STATUS
+       ===================================================== */
+
+    async function updateAdminState(session) {
+
+        if (!session) {
+
+            loginBox.classList.remove("hidden");
+            adminPanel.classList.add("hidden");
+
+            return;
+
+        }
+
+
+        const {
+            data,
+            error
+        } = await db
+            .from("admins")
+            .select("user_id")
+            .eq("user_id", session.user.id)
+            .maybeSingle();
+
+
+        if (error) {
+
+            console.error(
+                "Admin-Prüfung:",
+                error
+            );
+
+            await db.auth.signOut();
+
+            loginBox.classList.remove("hidden");
+            adminPanel.classList.add("hidden");
+
+            showMessage(
+                loginMessage,
+                "Admin-Berechtigung konnte nicht überprüft werden: " +
+                error.message
+            );
+
+            return;
+
+        }
+
+
+        if (!data) {
+
+            await db.auth.signOut();
+
+            loginBox.classList.remove("hidden");
+            adminPanel.classList.add("hidden");
+
+            showMessage(
+                loginMessage,
+                "Dieser Account hat keine Admin-Berechtigung."
+            );
+
+            return;
+
+        }
+
+
+        loginBox.classList.add("hidden");
+        adminPanel.classList.remove("hidden");
+
+        await loadAdminGifts();
+
+    }
+
+
+    db.auth.onAuthStateChange(
+        (event, session) => {
+
+            setTimeout(
+                () => updateAdminState(session),
+                0
+            );
+
+        }
+    );
+
+
+    /* =====================================================
+       AUSLOGGEN
+       ===================================================== */
+
+    logoutButton.addEventListener(
+        "click",
+        async function() {
+
+            await db.auth.signOut();
+
+        }
+    );
+
+
+    /* =====================================================
+       ADMIN: GESCHENKE LADEN
+       ===================================================== */
+
+    async function loadAdminGifts() {
+
+        const {
+            data,
+            error
+        } = await db
+            .from("gifts")
+            .select("*")
+            .order("created_at", {
+                ascending: true
+            });
+
+
+        if (error) {
+
+            console.error(
+                "Admin-Geschenke laden:",
+                error
+            );
+
+            adminGiftList.innerHTML =
+                "Geschenke konnten nicht geladen werden.";
+
+            return;
+
+        }
+
+
+        renderAdminGifts(data || []);
+
+    }
+
+
+    /* =====================================================
+       ADMIN: GESCHENKE ANZEIGEN
+       ===================================================== */
+
+    function renderAdminGifts(gifts) {
+
+        if (!gifts.length) {
+
+            adminGiftList.innerHTML = `
+                <p style="color:#806f74;">
+                    Noch keine Geschenke vorhanden.
+                </p>
+            `;
+
+            return;
+
+        }
+
+
+        adminGiftList.innerHTML = "";
+
+
+        gifts.forEach(gift => {
+
+            const item =
+                document.createElement("div");
+
+            item.className = "admin-gift";
+
+
+            item.innerHTML = `
+
+                <div class="admin-gift-info">
+
+                    <h3>
+                        ${escapeHtml(gift.name)}
+                    </h3>
+
+                    <p>
+                        ${escapeHtml(gift.category || "Keine Kategorie")}
+                        ·
+                        ${formatPrice(gift.price)}
+                        ·
+                        ${
+                            gift.is_claimed
+                                ? "Bereits gekauft"
+                                : "Verfügbar"
+                        }
+                    </p>
+
+                </div>
+
+
+                <div class="admin-gift-actions">
+
+                    <button
+                        class="admin-button admin-secondary"
+                        data-action="edit"
+                    >
+                        Bearbeiten
+                    </button>
+
+
+                    ${
+                        gift.is_claimed
+                            ? `
+                                <button
+                                    class="admin-button admin-secondary"
+                                    data-action="reset"
+                                >
+                                    Zurücksetzen
+                                </button>
+                            `
+                            : ""
+                    }
+
+
+                    <button
+                        class="admin-button admin-danger"
+                        data-action="delete"
+                    >
+                        Löschen
+                    </button>
+
+                </div>
+
+            `;
+
+
+            item.querySelector(
+                '[data-action="edit"]'
+            ).addEventListener(
+                "click",
+                () => startEditGift(gift)
+            );
+
+
+            const resetButton =
+                item.querySelector(
+                    '[data-action="reset"]'
+                );
+
+
+            if (resetButton) {
+
+                resetButton.addEventListener(
+                    "click",
+                    () => resetGift(gift.id)
+                );
+
+            }
+
+
+            item.querySelector(
+                '[data-action="delete"]'
+            ).addEventListener(
+                "click",
+                () => deleteGift(gift.id)
+            );
+
+
+            adminGiftList.appendChild(item);
+
+        });
+
+    }
+
+
+    /* =====================================================
+       ADMIN: NEUES GESCHENK / BEARBEITEN
+       ===================================================== */
+
+    giftForm.addEventListener(
+        "submit",
+        async function(event) {
+
+            event.preventDefault();
+
+            hideMessage(adminMessage);
+
+
+            const name =
+                document.getElementById(
+                    "giftName"
+                ).value.trim();
+
+
+            const description =
+                document.getElementById(
+                    "giftDescription"
+                ).value.trim();
+
+
+            const category =
+                document.getElementById(
+                    "giftCategory"
+                ).value.trim();
+
+
+            const price =
+                Number(
+                    document.getElementById(
+                        "giftPrice"
+                    ).value
+                );
+
+
+            const imageUrl =
+                document.getElementById(
+                    "giftImage"
+                ).value.trim();
+
+
+            const shopUrl =
+                document.getElementById(
+                    "giftShop"
+                ).value.trim();
+
+
+            if (!name || !category) {
+
+                showMessage(
+                    adminMessage,
+                    "Bitte Name und Kategorie ausfüllen."
+                );
+
+                return;
+
+            }
+
+
+            if (
+                !Number.isFinite(price) ||
+                price < 0
+            ) {
+
+                showMessage(
+                    adminMessage,
+                    "Bitte einen gültigen Preis eingeben."
+                );
+
+                return;
+
+            }
+
+
+            if (
+                safeUrl(imageUrl) === "#" ||
+                safeUrl(shopUrl) === "#"
+            ) {
+
+                showMessage(
+                    adminMessage,
+                    "Bild-URL und Shop-Link müssen gültige http/https-Links sein."
+                );
+
+                return;
+
+            }
+
+
+            const giftData = {
+
+                name,
+
+                description,
+
+                category,
+
+                price,
+
+                image_url: imageUrl,
+
+                shop_url: shopUrl
+
+            };
+
+
+            let error;
+
+
+            if (editingGiftId !== null) {
+
+                const result =
+                    await db
+                        .from("gifts")
+                        .update(giftData)
+                        .eq("id", editingGiftId);
+
+                error = result.error;
+
+            } else {
+
+                const result =
+                    await db
+                        .from("gifts")
+                        .insert(giftData);
+
+                error = result.error;
+
+            }
+
+
+            if (error) {
+
+                console.error(
+                    "Geschenk speichern:",
+                    error
+                );
+
+                showMessage(
+                    adminMessage,
+                    "Das Geschenk konnte nicht gespeichert werden: " +
+                    error.message
+                );
+
+                return;
+
+            }
+
+
+            showMessage(
+                adminMessage,
+                editingGiftId !== null
+                    ? "Geschenk wurde geändert."
+                    : "Geschenk wurde hinzugefügt."
+            );
+
+
+            resetGiftForm();
+
+            await loadGifts();
+
+            await loadAdminGifts();
+
+        }
+    );
+
+
+    /* =====================================================
+       ADMIN: BEARBEITEN STARTEN
+       ===================================================== */
+
+    function startEditGift(gift) {
+
+        editingGiftId = gift.id;
+
+
+        document.getElementById(
+            "giftName"
+        ).value = gift.name || "";
+
+
+        document.getElementById(
+            "giftDescription"
+        ).value = gift.description || "";
+
+
+        document.getElementById(
+            "giftCategory"
+        ).value = gift.category || "";
+
+
+        document.getElementById(
+            "giftPrice"
+        ).value = gift.price ?? "";
+
+
+        document.getElementById(
+            "giftImage"
+        ).value = gift.image_url || "";
+
+
+        document.getElementById(
+            "giftShop"
+        ).value = gift.shop_url || "";
+
+
+        saveGiftButton.textContent =
+            "Änderungen speichern";
+
+
+        cancelEditButton.classList.remove(
+            "hidden"
+        );
+
+
+        document.getElementById(
+            "giftForm"
+        ).scrollIntoView({
+            behavior: "smooth",
+            block: "center"
+        });
+
+    }
+
+
+    /* =====================================================
+       ADMIN: BEARBEITEN ABBRECHEN
+       ===================================================== */
+
+    cancelEditButton.addEventListener(
+        "click",
+        function() {
+
+            resetGiftForm();
+
+        }
+    );
+
+
+    function resetGiftForm() {
+
+        editingGiftId = null;
+
+        giftForm.reset();
+
+        saveGiftButton.textContent =
+            "Geschenk hinzufügen";
+
+        cancelEditButton.classList.add(
+            "hidden"
+        );
+
+    }
+
+
+    /* =====================================================
+       ADMIN: GESCHENK ZURÜCKSETZEN
+       ===================================================== */
+
+    async function resetGift(giftId) {
+
+        const confirmation =
+            confirm(
+                "Dieses Geschenk wieder auf „Verfügbar“ setzen?"
+            );
+
+
+        if (!confirmation) {
+            return;
+        }
+
+
+        const {
+            error
+        } = await db
+            .from("gifts")
+            .update({
+                is_claimed: false
+            })
+            .eq("id", giftId);
+
+
+        if (error) {
+
+            console.error(
+                "Geschenk zurücksetzen:",
+                error
+            );
+
+            showMessage(
+                adminMessage,
+                "Das Geschenk konnte nicht zurückgesetzt werden: " +
+                error.message
+            );
+
+            return;
+
+        }
+
+
+        showMessage(
+            adminMessage,
+            "Geschenk wurde wieder verfügbar gemacht."
+        );
+
+
+        await loadGifts();
+
+        await loadAdminGifts();
+
+    }
+
+
+    /* =====================================================
+       ADMIN: GESCHENK LÖSCHEN
+       ===================================================== */
+
+    async function deleteGift(giftId) {
+
+        const confirmation =
+            confirm(
+                "Möchtest du dieses Geschenk wirklich löschen?"
+            );
+
+
+        if (!confirmation) {
+            return;
+        }
+
+
+        const {
+            error
+        } = await db
+            .from("gifts")
+            .delete()
+            .eq("id", giftId);
+
+
+        if (error) {
+
+            console.error(
+                "Geschenk löschen:",
+                error
+            );
+
+            showMessage(
+                adminMessage,
+                "Das Geschenk konnte nicht gelöscht werden: " +
+                error.message
+            );
+
+            return;
+
+        }
+
+
+        showMessage(
+            adminMessage,
+            "Geschenk wurde gelöscht."
+        );
+
+
+        await loadGifts();
+
+        await loadAdminGifts();
+
+    }
+
+
+    /* =====================================================
+       START
+       ===================================================== */
+
+    async function startApp() {
+
+        await loadGifts();
+
+
+        const {
+            data: {
+                session
+            }
+        } = await db.auth.getSession();
+
+
+        await updateAdminState(session);
+
+    }
+
+
+    startApp();
+
+</script>
 </body>
 </html>
