@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Leonie's Wunschliste</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: #fcf7f8;
+            color: #45383c;
+            font-family: "DM Sans", sans-serif;
+            line-height: 1.6;
+        }
+
+        /* -------------------------
+           HERO
+        ------------------------- */
+
+        .hero {
+            min-height: 580px;
+            background: #f7dfe7;
+            display: flex;
+            align-items: center;
+            padding: 80px 8%;
+        }
+
+        .hero-content {
+            max-width: 780px;
+        }
+
+        .small-title {
+            font-size: 11px;
+            letter-spacing: 3px;
+            font-weight: 600;
+            color: #956c78;
+            margin-bottom: 28px;
+        }
+
+        h1 {
+            font-family: "Playfair Display", serif;
+            font-size: clamp(52px, 7vw, 92px);
+            line-height: 1.02;
+            font-weight: 500;
+            color: #49383d;
+            margin-bottom: 32px;
+        }
+
+        .description {
+            max-width: 610px;
+            font-size: 17px;
+            color: #725e64;
+        }
+
+        /* -------------------------
+           MAIN
+        ------------------------- */
+
+        main {
+            max-width: 1250px;
+            margin: auto;
+            padding: 100px 30px;
+        }
+
+        .gift-section {
+            margin-bottom: 110px;
+        }
+
+        .section-heading {
+            margin-bottom: 42px;
+        }
+
+        .section-label {
+            font-size: 11px;
+            letter-spacing: 3px;
+            font-weight: 600;
+            color: #ad7c8a;
+        }
+
+        h2 {
+            font-family: "Playfair Display", serif;
+            font-size: 48px;
+            font-weight: 500;
+            margin-top: 5px;
+            color: #49383d;
+        }
+
+        /* -------------------------
+           GIFT GRID
+        ------------------------- */
+
+        .gift-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 28px;
+        }
+
+        /* -------------------------
+           CARD
+        ------------------------- */
+
+        .gift-card {
+            background: #ffffff;
+            border-radius: 18px;
+            overflow: hidden;
+            border: 1px solid #eee3e6;
+            transition: transform .25s ease, box-shadow .25s ease;
+        }
+
+        .gift-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 18px 40px rgba(91, 62, 70, .08);
+        }
+
+        /* -------------------------
+           IMAGE
+        ------------------------- */
+
+        .gift-image {
+            aspect-ratio: 1 / 1;
+            background: #f5e1e7;
+            overflow: hidden;
+        }
+
+        .gift-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* -------------------------
+           CONTENT
+        ------------------------- */
+
+        .gift-content {
+            padding: 26px;
+        }
+
+        .gift-category {
+            font-size: 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #b07c8b;
+            font-weight: 600;
+        }
+
+        h3 {
+            font-family: "Playfair Display", serif;
+            font-size: 29px;
+            font-weight: 500;
+            margin-top: 6px;
+            color: #49383d;
+        }
+
+        .gift-description {
+            font-size: 14px;
+            color: #806f74;
+            margin-top: 10px;
+            min-height: 45px;
+        }
+
+        /* -------------------------
+           PRICE + STATUS
+        ------------------------- */
+
+        .gift-bottom {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 24px;
+        }
+
+        .price {
+            font-weight: 600;
+            font-size: 17px;
+        }
+
+        .status {
+            font-size: 10px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            padding: 6px 10px;
+            border-radius: 30px;
+        }
+
+        .status.available {
+            background: #f3e8eb;
+            color: #8c6671;
+        }
+
+        .status.taken {
+            background: #e8e5e6;
+            color: #777074;
+        }
+
+        /* -------------------------
+           BUTTONS
+        ------------------------- */
+
+        .gift-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 9px;
+            margin-top: 24px;
+        }
+
+        .shop-button,
+        .claim-button {
+            width: 100%;
+            min-height: 45px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: inherit;
+            font-size: 13px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: .2s ease;
+        }
+
+        .shop-button {
+            background: #f4dce4;
+            color: #604850;
+        }
+
+        .shop-button:hover {
+            background: #edcbd5;
+        }
+
+        .claim-button {
+            border: 1px solid #dfcbd1;
+            background: transparent;
+            color: #66535a;
+        }
+
+        .claim-button:hover {
+            background: #faf2f4;
+        }
+
+        /* -------------------------
+           TAKEN STATE
+        ------------------------- */
+
+        .gift-card.taken {
+            opacity: .72;
+        }
+
+        .gift-card.taken .claim-button {
+            cursor: not-allowed;
+            background: #f1edef;
+            color: #999194;
+            border-color: #e5dfe1;
+        }
+
+        .gift-card.taken .shop-button {
+            pointer-events: none;
+            opacity: .5;
+        }
+
+        /* -------------------------
+           INFO
+        ------------------------- */
+
+        .info-box {
+            background: #f7e8ed;
+            border-radius: 18px;
+            padding: 35px;
+            margin-top: 20px;
+            color: #705c63;
+        }
+
+        .info-box h3 {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+
+        .info-box p {
+            font-size: 14px;
+            max-width: 700px;
+        }
+
+        /* -------------------------
+           FOOTER
+        ------------------------- */
+
+        footer {
+            border-top: 1px solid #eadfe2;
+            max-width: 1250px;
+            margin: auto;
+            padding: 35px 30px 50px;
+            display: flex;
+            justify-content: space-between;
+            color: #806f74;
+            font-size: 13px;
+        }
+
+        footer p {
+            font-weight: 600;
+        }
+
+        footer span {
+            color: #a29498;
+        }
+
+        /* -------------------------
+           MOBILE
+        ------------------------- */
+
+        @media (max-width: 900px) {
+
+            .gift-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+        }
+
+        @media (max-width: 600px) {
+
+            .hero {
+                min-height: 500px;
+                padding: 60px 25px;
+            }
+
+            h1 {
+                font-size: 52px;
+            }
+
+            .description {
+                font-size: 15px;
+            }
+
+            main {
+                padding: 70px 18px;
+            }
+
+            h2 {
+                font-size: 40px;
+            }
+
+            .gift-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .gift-section {
+                margin-bottom: 80px;
+            }
+
+            footer {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+
+    <!-- =========================
+         HEADER
+    ========================== -->
+
+    <header class="hero">
+
+        <div class="hero-content">
+
+            <p class="small-title">
+                LEONIE'S WUNSCHLISTE
+            </p>
+
+            <h1>
+                Wünsche für<br>
+                besondere Momente.
+            </h1>
+
+            <p class="description">
+                Hier findest du Leonies Wünsche für ihren Geburtstag
+                und Weihnachten. Damit nichts doppelt geschenkt wird,
+                kann jedes Geschenk übernommen werden.
+            </p>
+
+        </div>
+
+    </header>
+
+
+
+    <main>
+
+
+        <!-- =========================
+             GEBURTSTAG
+        ========================== -->
+
+        <section class="gift-section">
+
+            <div class="section-heading">
+
+                <span class="section-label">
+                    21. FEBRUAR
+                </span>
+
+                <h2>
+                    Geburtstag
+                </h2>
+
+            </div>
+
+
+            <div class="gift-grid">
+
+
+                <!-- GESCHENK 1 -->
+
+                <article class="gift-card">
+
+                    <div class="gift-image">
+
+                        <img
+                            src="https://placehold.co/700x700/f8dfe7/6d4c55?text=Nike+Schuhe"
+                            alt="Nike Schuhe"
+                        >
+
+                    </div>
+
+
+                    <div class="gift-content">
+
+                        <span class="gift-category">
+                            Schuhe
+                        </span>
+
+                        <h3>
+                            Nike Schuhe
+                        </h3>
+
+                        <p class="gift-description">
+                            Die gewünschten Schuhe aus Leonies Wunschliste.
+                        </p>
+
+
+                        <div class="gift-bottom">
+
+                            <span class="price">
+                                89,99 €
+                            </span>
+
+                            <span class="status available">
+                                Verfügbar
+                            </span>
+
+                        </div>
+
+
+                        <div class="gift-actions">
+
+                            <a
+                                href="https://www.amazon.de/"
+                                target="_blank"
+                                class="shop-button"
+                            >
+                                Zum Shop
+                            </a>
+
+                            <button
+                                class="claim-button"
+                                onclick="claimGift(this)"
+                            >
+                                Geschenk übernehmen
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+
+
+                <!-- GESCHENK 2 -->
+
+                <article class="gift-card">
+
+                    <div class="gift-image">
+
+                        <img
+                            src="https://placehold.co/700x700/f8dfe7/6d4c55?text=Parfum"
+                            alt="Parfum"
+                        >
+
+                    </div>
+
+
+                    <div class="gift-content">
+
+                        <span class="gift-category">
+                            Beauty
+                        </span>
+
+                        <h3>
+                            Parfum
+                        </h3>
+
+                        <p class="gift-description">
+                            Ein Parfum aus Leonies Wunschliste.
+                        </p>
+
+
+                        <div class="gift-bottom">
+
+                            <span class="price">
+                                59,99 €
+                            </span>
+
+                            <span class="status available">
+                                Verfügbar
+                            </span>
+
+                        </div>
+
+
+                        <div class="gift-actions">
+
+                            <a
+                                href="https://www.amazon.de/"
+                                target="_blank"
+                                class="shop-button"
+                            >
+                                Zum Shop
+                            </a>
+
+                            <button
+                                class="claim-button"
+                                onclick="claimGift(this)"
+                            >
+                                Geschenk übernehmen
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =========================
+             WEIHNACHTEN
+        ========================== -->
+
+        <section class="gift-section">
+
+            <div class="section-heading">
+
+                <span class="section-label">
+                    24. DEZEMBER
+                </span>
+
+                <h2>
+                    Weihnachten
+                </h2>
+
+            </div>
+
+
+            <div class="gift-grid">
+
+
+                <!-- GESCHENK -->
+
+                <article class="gift-card">
+
+                    <div class="gift-image">
+
+                        <img
+                            src="https://placehold.co/700x700/f8dfe7/6d4c55?text=Wunsch"
+                            alt="Geschenk"
+                        >
+
+                    </div>
+
+
+                    <div class="gift-content">
+
+                        <span class="gift-category">
+                            Wunsch
+                        </span>
+
+                        <h3>
+                            Beispiel-Geschenk
+                        </h3>
+
+                        <p class="gift-description">
+                            Beschreibung des gewünschten Geschenks.
+                        </p>
+
+
+                        <div class="gift-bottom">
+
+                            <span class="price">
+                                39,99 €
+                            </span>
+
+                            <span class="status available">
+                                Verfügbar
+                            </span>
+
+                        </div>
+
+
+                        <div class="gift-actions">
+
+                            <a
+                                href="https://www.amazon.de/"
+                                target="_blank"
+                                class="shop-button"
+                            >
+                                Zum Shop
+                            </a>
+
+                            <button
+                                class="claim-button"
+                                onclick="claimGift(this)"
+                            >
+                                Geschenk übernehmen
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =========================
+             INFO
+        ========================== -->
+
+        <div class="info-box">
+
+            <h3>
+                So funktioniert es
+            </h3>
+
+            <p>
+                Such dir einfach ein Geschenk aus und klicke auf
+                „Geschenk übernehmen“. Anschließend kannst du es über
+                den Shop kaufen. So wissen die anderen, dass dieses
+                Geschenk bereits vergeben ist.
+            </p>
+
+        </div>
+
+
+    </main>
+
+
+
+    <!-- =========================
+         FOOTER
+    ========================== -->
+
+    <footer>
+
+        <p>
+            Leonie's Wunschliste
+        </p>
+
+        <span>
+            Privat · Nur für Familie
+        </span>
+
+    </footer>
+
+
+
+    <!-- =========================
+         JAVASCRIPT
+    ========================== -->
+
+    <script>
+
+        function claimGift(button) {
+
+            const card = button.closest(".gift-card");
+
+            const status = card.querySelector(".status");
+
+
+            if (card.classList.contains("taken")) {
+                return;
+            }
+
+
+            const confirmation = confirm(
+                "Möchtest du dieses Geschenk übernehmen?"
+            );
+
+
+            if (!confirmation) {
+                return;
+            }
+
+
+            card.classList.add("taken");
+
+
+            status.textContent = "Bereits gekauft";
+
+            status.classList.remove("available");
+
+            status.classList.add("taken");
+
+
+            button.textContent = "Bereits übernommen";
+
+            button.disabled = true;
+
+        }
+
+    </script>
+
+
+</body>
+</html>
